@@ -19,16 +19,18 @@ export async function getInitialState(): Promise<InitialState> {
   const { location } = history;
   if (location.pathname !== loginPath) {
     try {
+      console.log('请求登录用户')
       const res = await getLoginUserUsingGet();
       initialState.currentUser = res.data;
     } catch (error: any) {
       // 如果未登录
+
     }
 
     // 模拟登录用户
     // const mockUser: API.LoginUserVO = {
     //   userAvatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
-    //   userName: 'yupi',
+    //   userName: 'ale',
     //   userRole: 'admin',
     // };
     // initialState.currentUser = mockUser;

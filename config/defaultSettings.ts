@@ -15,7 +15,7 @@ const Settings: ProLayoutProps & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: '阿乐前端万用模板',
+  title: 'AI应用答题平台',
   pwa: true,
   iconfontUrl: '',
   token: {

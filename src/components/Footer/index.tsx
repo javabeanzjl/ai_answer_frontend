@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
         {
           key: 'codeNav',
           title: '编程导航',
-          href: 'https://yupi.icu',
+          href: 'https://ale.icu',
           blankTarget: true,
         },
         {
@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
               <GithubOutlined /> 阿乐源码
             </>
           ),
-          href: 'https://github.com/liyupi',
+          href: 'https://github.com/liale',
           blankTarget: true,
         },
       ]}

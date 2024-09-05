@@ -73,7 +73,7 @@ export default defineConfig({
    * @name layout 插件
    * @doc https://umijs.org/docs/max/layout-menu
    */
-  title: '阿乐前端万用模板',
+  title: 'AI应用答题平台',
   layout: {
     locale: true,
     ...defaultSettings,
@@ -129,7 +129,7 @@ export default defineConfig({
   openAPI: [
     {
       requestLibPath: "import { request } from '@umijs/max'",
-      schemaPath: 'http://localhost:8101/api/v2/api-docs',
+      schemaPath: 'http://localhost:7529/api/v2/api-docs',
       projectName: 'backend',
     },
   ],

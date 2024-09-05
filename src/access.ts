@@ -1,8 +1,9 @@
 /**
  * @see https://umijs.org/zh-CN/plugins/plugin-access
  * */
-export default function access(initialState: { currentUser?: API.LoginUserVO } | undefined) {
+export default function access(initialState: { currentUser?: API.UserVO } | undefined) {
   const { currentUser } = initialState ?? {};
+  console.log('currentUser', currentUser);
   return {
     canUser: currentUser,
     canAdmin: currentUser && currentUser.userRole === 'admin',

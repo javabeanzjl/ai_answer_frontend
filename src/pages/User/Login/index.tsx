@@ -38,6 +38,7 @@ const Login: React.FC = () => {
         ...initialState,
         currentUser: res.data,
       });
+      console.log(res.data)
       const urlParams = new URL(window.location.href).searchParams;
       history.push(urlParams.get('redirect') || '/');
       return;
@@ -66,8 +67,8 @@ const Login: React.FC = () => {
             maxWidth: '75vw',
           }}
           logo={<img alt="logo" style={{ height: '100%' }} src="/logo.svg" />}
-          title="阿乐前端万用模板"
-          subTitle={'快速开发属于自己的前端项目'}
+          title="AI应用答题平台"
+          subTitle={'打造个性化学习体验，创造无限可能！'}
           initialValues={{
             autoLogin: true,
           }}

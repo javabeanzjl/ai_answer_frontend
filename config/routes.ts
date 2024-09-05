@@ -14,10 +14,10 @@ export default [
     name: '管理页',
     access: 'canAdmin',
     routes: [
-      { path: '/admin', redirect: '/admin/user' },
+      { path: '/admin', redirect: '/' },
       { icon: 'table', path: '/admin/user', component: './Admin/User', name: '用户管理' },
     ],
   },
-  { path: '/', redirect: '/user/login' },
+  { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },
 ];

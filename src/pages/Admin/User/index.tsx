@@ -1,12 +1,12 @@
 import CreateModal from '@/pages/Admin/User/components/CreateModal';
 import UpdateModal from '@/pages/Admin/User/components/UpdateModal';
-import { deleteUserUsingPost, listUserByPageUsingPost } from '@/services/backend/userController';
-import { PlusOutlined } from '@ant-design/icons';
-import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { PageContainer, ProTable } from '@ant-design/pro-components';
+import {deleteUserUsingPost, getLoginUserUsingGet, listUserByPageUsingPost,} from '@/services/backend/userController';
+import {PlusOutlined} from '@ant-design/icons';
+import type {ActionType, ProColumns} from '@ant-design/pro-components';
+import {PageContainer, ProTable} from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, message, Space, Typography } from 'antd';
-import React, { useRef, useState } from 'react';
+import {Button, message, Space, Typography} from 'antd';
+import React, {useEffect, useRef, useState} from 'react';
 
 /**
  * 用户管理页面
@@ -18,16 +18,18 @@ const UserAdminPage: React.FC = () => {
   const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
   // 是否显示更新窗口
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
+  // 当前登录用户
   const actionRef = useRef<ActionType>();
   // 当前用户点击的数据
-  const [currentRow, setCurrentRow] = useState<API.User>();
+  const [currentRow, setCurrentRow] = useState<API.UserVO>();
+  const [loading, setLoading] = useState(true);
 
   /**
    * 删除节点
    *
    * @param row
    */
-  const handleDelete = async (row: API.User) => {
+  const handleDelete = async (row: API.UserVO) => {
     const hide = message.loading('正在删除');
     if (!row) return true;
     try {
@@ -48,7 +50,7 @@ const UserAdminPage: React.FC = () => {
   /**
    * 表格列配置
    */
-  const columns: ProColumns<API.User>[] = [
+  const columns: ProColumns<API.UserVO>[] = [
     {
       title: 'id',
       dataIndex: 'id',
@@ -128,9 +130,23 @@ const UserAdminPage: React.FC = () => {
       ),
     },
   ];
+
+  const loadData = async () => {
+    setLoading(true);
+    const res = await getLoginUserUsingGet();
+    // console.log(res.data)
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    loadData().then(() => {
+      actionRef.current?.reload();
+    });
+  }, []);
+
   return (
     <PageContainer>
-      <ProTable<API.User>
+      <ProTable<API.UserVO>
         headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="key"
@@ -145,14 +161,14 @@ const UserAdminPage: React.FC = () => {
               setCreateModalVisible(true);
             }}
           >
-            <PlusOutlined /> 新建
+            <PlusOutlined/> 新建
           </Button>,
         ]}
         request={async (params, sort, filter) => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
 
-          const { data, code } = await listUserByPageUsingPost({
+          const {data, code} = await listUserByPageUsingPost({
             ...params,
             sortField,
             sortOrder,
