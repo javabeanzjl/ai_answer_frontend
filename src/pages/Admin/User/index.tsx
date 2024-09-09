@@ -33,6 +33,7 @@ const UserAdminPage: React.FC = () => {
     const hide = message.loading('正在删除');
     if (!row) return true;
     try {
+      console.log(row)
       await deleteUserUsingPost({
         id: row.id as any,
       });
@@ -152,6 +153,9 @@ const UserAdminPage: React.FC = () => {
         rowKey="key"
         search={{
           labelWidth: 120,
+        }}
+        pagination={{
+          pageSize: 5, // 设置每页显示的条数
         }}
         toolBarRender={() => [
           <Button
