@@ -86,7 +86,7 @@ const UserRegisterPage: React.FC = () => {
             },
           }}
           onFinish={async (values) => {
-            await handleSubmit(values as API.UserLoginRequest);
+            await handleSubmit(values as API.UserRegisterRequest);
           }}
         >
           <Tabs

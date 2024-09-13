@@ -9,7 +9,7 @@ const QuestionPage: React.FC = () => {
   const [reviewModalVisible, setReviewModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   // 当前用户点击的数据
-  const [currentRow, setCurrentRow] = useState<API.AppVO>();
+  const [currentRow, setCurrentRow] = useState<API.Question>();
 
   // 用于控制弹出框的显示与隐藏
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -31,7 +31,7 @@ const QuestionPage: React.FC = () => {
     setIsModalVisible(false);
   };
 
-  const handleDelete = async (row: API.AppVO) => {
+  const handleDelete = async (row: API.Question) => {
     const hide = message.loading('正在删除');
     if (!row) return true;
     try {

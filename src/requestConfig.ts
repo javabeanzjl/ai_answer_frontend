@@ -1,6 +1,7 @@
-﻿import { BACKEND_HOST_LOCAL, BACKEND_HOST_PROD } from '@/constants';
-import type { RequestOptions } from '@@/plugin-request/request';
-import type { RequestConfig } from '@umijs/max';
+﻿import {BACKEND_HOST_LOCAL, BACKEND_HOST_PROD} from '@/constants';
+import type {RequestOptions} from '@@/plugin-request/request';
+import type {RequestConfig} from '@umijs/max';
+import {message} from "antd";
 
 // 与后端约定的响应数据格式
 interface ResponseStructure {
@@ -36,7 +37,7 @@ export const requestConfig: RequestConfig = {
       const requestPath: string = response.config.url ?? '';
 
       // 响应
-      const { data } = response as unknown as ResponseStructure;
+      const {data} = response as unknown as ResponseStructure;
       if (!data) {
         throw new Error('服务异常');
       }
@@ -45,16 +46,14 @@ export const requestConfig: RequestConfig = {
       const code: number = data.code;
       // 未登录，且不为获取用户登录信息接口
       if (
-        code === 40100 &&
+        (code === 40100) &&
         !requestPath.includes('user/get/login') &&
         !location.pathname.includes('/user/login')
       ) {
         // 跳转至登录页
-        console.log(code)
         window.location.href = `/user/login?redirect=${window.location.href}`;
         throw new Error('请先登录');
       }
-
       if (code !== 0) {
         throw new Error(data.message ?? '服务器错误');
       }

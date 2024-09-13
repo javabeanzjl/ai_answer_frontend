@@ -61,7 +61,6 @@ const AnswerPage: React.FC = () => {
       dataIndex: 'id',
       valueType: 'text',
       hideInForm: true,
-      hideInSearch: true,
     },
     {
       title: '用户答案',
@@ -80,7 +79,7 @@ const AnswerPage: React.FC = () => {
     },
 
     {
-      title: '结果id',
+      title: '用户id',
       dataIndex: 'userId',
       valueType: 'text',
     },

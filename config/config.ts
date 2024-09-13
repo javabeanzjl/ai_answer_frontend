@@ -115,7 +115,7 @@ export default defineConfig({
   headScripts: [
     // 解决首次加载时白屏的问题
     {
-      src: '/scripts/loading.js',
+      src: '/scripts/loading.utils',
       async: true,
     },
   ],
