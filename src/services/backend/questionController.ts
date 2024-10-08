@@ -17,6 +17,41 @@ export async function addQuestionUsingPost(
   });
 }
 
+/** aiGenerateQuestionSSE GET /api/question/add/sse */
+export async function aiGenerateQuestionSseUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.aiGenerateQuestionSSEUsingGETParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.SseEmitter>('/api/question/add/sse', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
+/** createQuestionByAi POST /api/question/create/ai */
+export async function createQuestionByAiUsingPost(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.createQuestionByAiUsingPOSTParams,
+  body: API.AiGenerateQuestionRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseBoolean_>('/api/question/create/ai', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    params: {
+      ...params,
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** deleteQuestion POST /api/question/delete */
 export async function deleteQuestionUsingPost(
   body: API.DeleteRequest,
@@ -43,6 +78,21 @@ export async function editQuestionUsingPost(
       'Content-Type': 'application/json',
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+/** getQuestionVOByAppId POST /api/question/get/appId */
+export async function getQuestionVoByAppIdUsingPost(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getQuestionVOByAppIdUsingPOSTParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseQuestionVO_>('/api/question/get/appId', {
+    method: 'POST',
+    params: {
+      ...params,
+    },
     ...(options || {}),
   });
 }
@@ -103,6 +153,14 @@ export async function listMyQuestionVoByPageUsingPost(
       'Content-Type': 'application/json',
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+/** testLimiter GET /api/question/test/limiter */
+export async function testLimiterUsingGet(options?: { [key: string]: any }) {
+  return request<any>('/api/question/test/limiter', {
+    method: 'GET',
     ...(options || {}),
   });
 }

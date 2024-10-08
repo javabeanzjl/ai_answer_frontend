@@ -1,7 +1,11 @@
 import '@umijs/max';
 import {Button, Form, Input, message, Modal, Select} from 'antd';
 import React, {useState} from 'react';
-import {editQuestionUsingPost} from "@/services/backend/questionController";
+import {
+  addQuestionUsingPost,
+  editQuestionUsingPost,
+  getQuestionVoByAppIdUsingPost
+} from "@/services/backend/questionController";
 
 interface Props {
   id: number,
@@ -14,7 +18,8 @@ interface Props {
   options: any[],
   currentRow: any,
   questionContentDTO: API.QuestionContentDTO[],
-  setOptions?: (value: (((prevState: API.Option[]) => API.Option[]) | API.Option[])) => void
+  setOptions?: (value: (((prevState: API.Option[]) => API.Option[]) | API.Option[])) => void,
+  questionId: number
 }
 
 /**
@@ -38,14 +43,14 @@ const AddQuestionResultModal: React.FC<Props> = (props) => {
     onSubmit,
     handleCancel,
     availableOptionKeys,
-    questionContentDTO
+    questionContentDTO,
+    questionId
   } = props;
   const handleAdd = async (values: API.QuestionContentDTO) => {
     const hide = message.loading('正在添加');
     try {
-      // await addUserUsingPost(fields);
       const questionContent: API.QuestionContentDTO = {
-        title: (questionContentDTO.length + 1) + '.' + values.title,
+        title: values.title,
         options: values?.options?.map((option: API.Option, index: any) => ({
           key: String(option.key),
           result: option.result,
@@ -53,13 +58,24 @@ const AddQuestionResultModal: React.FC<Props> = (props) => {
           value: option.value
         }))
       };
-      console.log('Received values:', questionContent);
+      // questionContentDTO.splice(0, questionContentDTO.length);
       questionContentDTO.push(questionContent);
-      // 在这里可以进行API调用等操作
-      const res = await editQuestionUsingPost({
-        id: Number(id),
-        questionContentDTOList: questionContentDTO,
-      })
+      // 如果已有题目则调用修改接口，如果没有题目则调用添加接口
+      const questionVORes = await getQuestionVoByAppIdUsingPost({appId: id})
+      const sum = questionVORes?.data?.questionContent?.length;
+      let res;
+      if (sum && sum > 0) {
+        res = await editQuestionUsingPost({
+          id: questionId,
+          questionContentDTOList: questionContentDTO,
+        })
+      } else {
+        res = await addQuestionUsingPost({
+          id: questionId as any,
+          appId: id as any,
+          questionContentDTOList: questionContentDTO
+        });
+      }
       if (res) {
         hide();
         message.success('创建成功');

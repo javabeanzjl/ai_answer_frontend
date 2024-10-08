@@ -15,6 +15,18 @@ export default [
   {name: '评分结果页面', hideInMenu: true, path: '/app/:id/scoringResults', component: './App/Score'},
   {name: '应用答题页面', hideInMenu: true, path: '/app/:id/test', component: './App/Test'},
   {name: '答题结果详情页面', hideInMenu: true, path: '/app/answer/result/:id', component: './App/Answer/Result'},
+  {name: '我的答题结果', path: '/app/my/result', component: './User/Answer/Result'},
+  {name: '个人中心', path: '/user/center', component: './User/Center'},
+  {
+    path: '/static',
+    icon: 'crown',
+    name: '统计分析页',
+    access: 'canAdmin',
+    routes: [
+      {path: '/static', redirect: '/'},
+      {name: '分析页', path: 'static/analysis', icon: 'smile', component: './Static/Analysis'},
+    ],
+  },
   {
     path: '/admin',
     icon: 'crown',

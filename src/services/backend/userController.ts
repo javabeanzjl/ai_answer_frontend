@@ -52,6 +52,21 @@ export async function getLoginUserUsingGet(options?: { [key: string]: any }) {
   });
 }
 
+/** getInvokeCount GET /api/user/getInvokeCount */
+export async function getInvokeCountUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getInvokeCountUsingGETParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseInt_>('/api/user/getInvokeCount', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 /** getListUser POST /api/user/list */
 export async function getListUserUsingPost(
   body: API.UserQueryRequest,
@@ -146,6 +161,21 @@ export async function updateUserUsingPost(
       'Content-Type': 'application/json',
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+/** validateUserInvokeCount GET /api/user/validateInvokeCount */
+export async function validateUserInvokeCountUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.validateUserInvokeCountUsingGETParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseBoolean_>('/api/user/validateInvokeCount', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
     ...(options || {}),
   });
 }

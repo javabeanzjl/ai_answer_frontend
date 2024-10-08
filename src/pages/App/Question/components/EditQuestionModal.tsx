@@ -20,14 +20,34 @@ interface Props {
     options: API.Option[] | undefined;
     title?: string
   })) => void,
+  aiGenerateType: string,
+  questionList: API.QuestionContentDTO[],
+  setQuestionList: React.Dispatch<React.SetStateAction<API.QuestionContentDTO[]>>
+  setQuestionContentDTO: any
 }
 
-/**
- * 添加节点
- * @param fields
- */
 
-
+// 比较两个Option数组是否相等
+const areOptionsEqual = (options1: API.Option[], options2: API.Option[]): boolean => {
+  if (options1.length !== options2.length) {
+    return false;
+  }
+  return options1.every((option, index) => {
+    return option.key === options2[index].key && option.value === options2[index].value;
+  });
+};
+const filterUnmodifiedQuestions = (questionList: API.QuestionContentDTO[], values: API.QuestionContentDTO): API.QuestionContentDTO[] => {
+  console.log(values)
+  console.log(questionList)
+  return questionList.filter(question => {
+    // 比较标题是否相同
+    const titleIsEqual = question.title !== values.title;
+    // 比较选项是否相同
+    // const optionsAreEqual = areOptionsEqual(question.options || [], values.options || []);
+    // 如果标题和选项都相同，则问题未修改
+    return titleIsEqual;
+  });
+};
 /**
  * 创建弹窗
  * @param props
@@ -47,33 +67,49 @@ const EditQuestionModal: React.FC<Props> = (props) => {
     form,
     currentQuestion,
     setCurrentQuestion,
+    aiGenerateType,
+    questionList,
+    setQuestionList,
+    setQuestionContentDTO
   } = props;
   const handleEdit = async (values: API.QuestionContentDTO) => {
+    console.log(aiGenerateType)
     const hide = message.loading('正在修改');
-    try {
-      console.log(values)
-      // 这个values就是你要删除的那个
-      const newQuestionContentDTO = questionContentDTO.filter(question => question.title !== currentQuestion?.title)
+    if (aiGenerateType === 'ai_real_time') {
+      console.log("???")
+      const newQuestionContentDTO = questionList.filter(question => question.title !== currentQuestion?.title)
       if (values) {
         newQuestionContentDTO.push(values)
       }
-      console.log(newQuestionContentDTO)
-      // 在这里可以进行API调用等操作
-      const res = await editQuestionUsingPost({
-        id: Number(id),
-        questionContentDTOList: newQuestionContentDTO,
-      })
-      if (res && setOptions) {
-        setOptions([]);
+      setQuestionList(newQuestionContentDTO)
+
+      return true;
+    } else {
+      try {
+        // 这个values就是你要修改的那个
+        const newQuestionContentDTO = questionContentDTO.filter(question => question.title !== currentQuestion?.title)
+        if (values) {
+          newQuestionContentDTO.push(values)
+        }
+        console.log(newQuestionContentDTO)
+        // 在这里可以进行API调用等操作
+        const res = await editQuestionUsingPost({
+          id: id as any,
+          questionContentDTOList: newQuestionContentDTO,
+        })
+        if (res && setOptions) {
+          setOptions([]);
+          hide();
+          message.success('修改成功');
+          return true;
+        }
+      } catch (error: any) {
         hide();
-        message.success('修改成功');
-        return true;
+        message.error('修改失败，' + error.message);
+        return false;
       }
-    } catch (error: any) {
-      hide();
-      message.error('修改失败，' + error.message);
-      return false;
     }
+
   };
 
   const addQuestionOption = () => {
@@ -144,7 +180,7 @@ const EditQuestionModal: React.FC<Props> = (props) => {
               <Form.Item
                 name={['options', index, 'result']}
                 label={`结果`}
-                rules={[{required: true, message: '请输入分数!'}]}
+                rules={[{required: false, message: '请输入分数!'}]}
               >
                 <Input/>
               </Form.Item>

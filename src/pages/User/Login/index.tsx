@@ -30,20 +30,21 @@ const Login: React.FC = () => {
       const res = await userLoginUsingPost({
         ...values,
       });
-
-      const defaultLoginSuccessMessage = '登录成功！';
-      message.success(defaultLoginSuccessMessage);
-      // 保存已登录用户信息
-      setInitialState({
-        ...initialState,
-        currentUser: res.data,
-      });
-      console.log(res.data)
-      const urlParams = new URL(window.location.href).searchParams;
-      history.push(urlParams.get('redirect') || '/');
+      if (res.code === 0) {
+        const defaultLoginSuccessMessage = '登录成功！';
+        message.success(defaultLoginSuccessMessage);
+        // 保存已登录用户信息
+        setInitialState({
+          ...initialState,
+          currentUser: res.data,
+        });
+        const urlParams = new URL(window.location.href).searchParams;
+        history.push(urlParams.get('redirect') || '/');
+      }
       return;
     } catch (error: any) {
       const defaultLoginFailureMessage = `登录失败，${error.message}`;
+      console.log(defaultLoginFailureMessage)
       message.error(defaultLoginFailureMessage);
     }
   };

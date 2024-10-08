@@ -1,4 +1,23 @@
 declare namespace API {
+  type AiGenerateQuestionRequest = {
+    appId?: number;
+    optionNum?: number;
+    questionNum?: number;
+    userId?: number;
+  };
+
+  type aiGenerateQuestionSSEUsingGETParams = {
+    appId?: number;
+    optionNum?: number;
+    questionNum?: number;
+    userId?: number;
+  };
+
+  type AiGenerateScoringResultRequest = {
+    appId?: number;
+    scoringResultNum?: number;
+  };
+
   type App = {
     appDesc?: string;
     appIcon?: string;
@@ -49,6 +68,11 @@ declare namespace API {
     userId?: number;
   };
 
+  type AppTypeDistribution = {
+    appCount?: number;
+    appType?: number;
+  };
+
   type AppUpdateRequest = {
     appDesc?: string;
     appIcon?: string;
@@ -88,6 +112,48 @@ declare namespace API {
   type BaseResponseBoolean_ = {
     code?: number;
     data?: boolean;
+    message?: string;
+  };
+
+  type BaseResponseInt_ = {
+    code?: number;
+    data?: number;
+    message?: string;
+  };
+
+  type BaseResponseListAppTypeDistribution_ = {
+    code?: number;
+    data?: AppTypeDistribution[];
+    message?: string;
+  };
+
+  type BaseResponseListHotAppDistribution_ = {
+    code?: number;
+    data?: HotAppDistribution[];
+    message?: string;
+  };
+
+  type BaseResponseListReviewPassRateDistribution_ = {
+    code?: number;
+    data?: ReviewPassRateDistribution[];
+    message?: string;
+  };
+
+  type BaseResponseListScoringResultVO_ = {
+    code?: number;
+    data?: ScoringResultVO[];
+    message?: string;
+  };
+
+  type BaseResponseListScoringStrategyDistribution_ = {
+    code?: number;
+    data?: ScoringStrategyDistribution[];
+    message?: string;
+  };
+
+  type BaseResponseListUserAnswerParticipation_ = {
+    code?: number;
+    data?: UserAnswerParticipation[];
     message?: string;
   };
 
@@ -175,6 +241,18 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseString_ = {
+    code?: number;
+    data?: string;
+    message?: string;
+  };
+
+  type BaseResponseUserAnswerGrowthRecord_ = {
+    code?: number;
+    data?: UserAnswerGrowthRecord;
+    message?: string;
+  };
+
   type BaseResponseUserAnswerVO_ = {
     code?: number;
     data?: UserAnswerVO;
@@ -187,6 +265,11 @@ declare namespace API {
     message?: string;
   };
 
+  type createQuestionByAiUsingPOSTParams = {
+    /** id */
+    id?: number;
+  };
+
   type DeleteRequest = {
     id?: number;
   };
@@ -194,6 +277,16 @@ declare namespace API {
   type getAppVOByIdUsingGETParams = {
     /** id */
     id?: number;
+  };
+
+  type getInvokeCountUsingGETParams = {
+    /** id */
+    id?: number;
+  };
+
+  type getQuestionVOByAppIdUsingPOSTParams = {
+    /** appId */
+    appId?: number;
   };
 
   type getQuestionVOByIdUsingGETParams = {
@@ -206,6 +299,11 @@ declare namespace API {
     id?: number;
   };
 
+  type getScoringResultVOListByAppIdUsingPOSTParams = {
+    /** appId */
+    appId?: number;
+  };
+
   type getUserAnswerVOByIdUsingGETParams = {
     /** id */
     id?: number;
@@ -214,6 +312,11 @@ declare namespace API {
   type getUserByIdUsingGETParams = {
     /** id */
     id?: number;
+  };
+
+  type HotAppDistribution = {
+    answerCount?: number;
+    appId?: number;
   };
 
   type Option = {
@@ -370,6 +473,7 @@ declare namespace API {
 
   type QuestionAddRequest = {
     appId?: number;
+    id?: number;
     questionContentDTOList?: QuestionContentDTO[];
   };
 
@@ -415,6 +519,11 @@ declare namespace API {
     userVO?: UserVO;
   };
 
+  type ReviewPassRateDistribution = {
+    appCount?: number;
+    reviewStatus?: number;
+  };
+
   type ScoringResult = {
     appId?: number;
     createTime?: string;
@@ -431,6 +540,7 @@ declare namespace API {
 
   type ScoringResultAddRequest = {
     appId?: number;
+    id?: number;
     resultDesc?: string;
     resultName?: string;
     resultPicture?: string;
@@ -487,9 +597,23 @@ declare namespace API {
     userVO?: UserVO;
   };
 
+  type ScoringStrategyDistribution = {
+    appCount?: number;
+    scoringStrategy?: number;
+  };
+
+  type SseEmitter = {
+    timeout?: number;
+  };
+
+  type uploadFileUsingPOSTParams = {
+    biz?: string;
+  };
+
   type User = {
     createTime?: string;
     id?: number;
+    invokeCount?: number;
     isDelete?: number;
     mpOpenId?: string;
     unionId?: string;
@@ -531,12 +655,26 @@ declare namespace API {
   type UserAnswerAddRequest = {
     appId?: number;
     choices?: string[];
+    id?: number;
   };
 
   type UserAnswerEditRequest = {
     appId?: number;
     choices?: string[];
     id?: number;
+  };
+
+  type UserAnswerGrowthRecord = {
+    dayIncPercent?: number;
+    userAnswerCount?: number;
+    wekIncPercent?: number;
+  };
+
+  type UserAnswerParticipation = {
+    appId?: number;
+    participationRate?: number;
+    totalAnswerCount?: number;
+    uniqueUserCount?: number;
   };
 
   type UserAnswerQueryRequest = {
@@ -621,9 +759,15 @@ declare namespace API {
   type UserVO = {
     createTime?: string;
     id?: number;
+    invokeCount?: number;
     userAvatar?: string;
     userName?: string;
     userProfile?: string;
     userRole?: string;
+  };
+
+  type validateUserInvokeCountUsingGETParams = {
+    /** id */
+    id?: number;
   };
 }

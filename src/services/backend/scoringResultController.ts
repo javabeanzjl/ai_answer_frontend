@@ -17,6 +17,21 @@ export async function addScoringResultUsingPost(
   });
 }
 
+/** createScoringResultByAi POST /api/scoringResult/create/ai */
+export async function createScoringResultByAiUsingPost(
+  body: API.AiGenerateScoringResultRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseBoolean_>('/api/scoringResult/create/ai', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** deleteScoringResult POST /api/scoringResult/delete */
 export async function deleteScoringResultUsingPost(
   body: API.DeleteRequest,
@@ -55,6 +70,21 @@ export async function getScoringResultVoByIdUsingGet(
 ) {
   return request<API.BaseResponseScoringResultVO_>('/api/scoringResult/get/vo', {
     method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
+/** getScoringResultVOListByAppId POST /api/scoringResult/get/vo/list/by/appId */
+export async function getScoringResultVoListByAppIdUsingPost(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getScoringResultVOListByAppIdUsingPOSTParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseListScoringResultVO_>('/api/scoringResult/get/vo/list/by/appId', {
+    method: 'POST',
     params: {
       ...params,
     },

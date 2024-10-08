@@ -231,8 +231,8 @@ const AppPage: React.FC = () => {
 
             const {data, code} = await listAppByPageUsingPost({
               ...params,
-              sortField,
-              sortOrder,
+              sortField: "updateTime",
+              sortOrder: "descend",
               pageSize,
               ...filter,
             } as API.AppQueryRequest);

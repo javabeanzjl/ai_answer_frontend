@@ -9,6 +9,7 @@ interface ScoringResultModalProps {
   onCancel: () => void;
   scoringResultVO: API.ScoringResultVO | null;
   appType: number | undefined;
+  form: any
 }
 
 const EditScoringResultModal: React.FC<ScoringResultModalProps> = (props) => {
@@ -19,10 +20,9 @@ const EditScoringResultModal: React.FC<ScoringResultModalProps> = (props) => {
     scoringResultVO,
     onSubmit,
     onCancel,
+    form,
   } = props;
-
-  const [form] = Form.useForm();
-
+  
   const handleEdit = async (values: API.ScoringResultVO) => {
     const hide = message.loading('正在修改');
     try {

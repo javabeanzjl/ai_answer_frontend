@@ -1,6 +1,8 @@
 import jsPDF from 'jspdf';
 import Papa from 'papaparse';
 import html2canvas from 'html2canvas';
+import ReactDOMServer from 'react-dom/server';
+import {QRCode} from "antd";
 
 export const exportPDF = (data) => {
   // 创建一个新的PDF文档
@@ -52,4 +54,55 @@ export const exportCSV = (data) => {
     link.click();
     document.body.removeChild(link);
   }
+};
+
+export const generatePoster = async () => {
+  // 创建一个隐藏的DOM元素，用于生成海报
+  const posterContent = document.createElement('div');
+  posterContent.style.position = 'fixed';
+  posterContent.style.left = '-9999px';
+  posterContent.style.top = '-9999px';
+  posterContent.style.width = '600px'; // 设置海报宽度
+  posterContent.style.height = '800px'; // 设置海报高度
+  posterContent.style.backgroundColor = '#fff'; // 设置海报背景颜色
+  posterContent.style.padding = '20px';
+  posterContent.style.boxSizing = 'border-box';
+
+  // 设置海报内容，包括二维码和应用介绍
+  posterContent.innerHTML = ReactDOMServer.renderToString(
+    <div style={{ textAlign: 'center' }}>
+      <h1 style={{ margin: 0, padding: '20px 0' }}>你的应用名称</h1>
+      <p style={{ fontSize: '16px', padding: '0 0 20px' }}>这里是应用介绍...</p>
+      <QRCode value="https://hao.123.com" size={128} />
+    </div>
+  );
+
+  document.body.appendChild(posterContent);
+
+  // 使用html2canvas生成海报图片
+  const canvas = await html2canvas(posterContent, {
+    logging: false, // 禁用日志输出
+    scale: 2, // 提高图片质量
+    useCORS: true // 如果海报内容包含跨域图片，则需要启用CORS
+  });
+
+  // 转换canvas为图片并获取图片数据URL
+  const posterImage = canvas.toDataURL('image/png');
+
+  // 清理创建的DOM元素
+  document.body.removeChild(posterContent);
+
+  return posterImage; // 返回海报图片数据URL
+};
+export const displayOrDownloadPoster = (posterImage) => {
+  // 这里可以根据需求处理海报图片，例如显示在模态框中或直接下载
+  const img = new Image();
+  img.src = posterImage;
+  img.style.width = '100%'; // 根据需要调整大小
+  document.body.appendChild(img); // 显示图片
+  // 创建下载链接
+  const link = document.createElement('a');
+  link.href = posterImage;
+  link.download = '应用分享海报.png';
+  link.click();
 };

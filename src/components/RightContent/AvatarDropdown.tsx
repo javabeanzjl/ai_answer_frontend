@@ -45,6 +45,8 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
         });
         loginOut();
         return;
+      } else if (key === 'center'){
+        history.push('/user/center');
       }
       history.push(`/account/${key}`);
     },
@@ -71,11 +73,11 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
             icon: <UserOutlined />,
             label: '个人中心',
           },
-          {
-            key: 'settings',
-            icon: <SettingOutlined />,
-            label: '个人设置',
-          },
+          // {
+          //   key: 'settings',
+          //   icon: <SettingOutlined />,
+          //   label: '个人设置',
+          // },
           {
             type: 'divider' as const,
           },

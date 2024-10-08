@@ -57,7 +57,7 @@ const AppCreatePage: React.FC = () => {
         <Form.Item
           label="应用图标"
           name="appIcon"
-          rules={[{required: true, message: '请输入应用图标URL!'}]}
+          rules={[{required: false, message: '请输入应用图标URL!'}]}
         >
           <Input/>
         </Form.Item>

@@ -1,10 +1,10 @@
 import {addUserUsingPost} from '@/services/backend/userController';
 import '@umijs/max';
 import {AutoComplete, Button, Form, Input, InputNumber, message, Modal, Select} from 'antd';
-import React, {useState} from 'react';
-import {editQuestionUsingPost} from "@/services/backend/questionController";
+import React, {useEffect, useState} from 'react';
 import {addScoringResultUsingPost, editScoringResultUsingPost} from "@/services/backend/scoringResultController";
 import FormItem from "antd/es/form/FormItem";
+import {generateSnowFlakeNextIdUsingGet} from "@/services/backend/baseController";
 
 interface Props {
   id: number,
@@ -14,6 +14,8 @@ interface Props {
   handleCancel: () => void,
   appType: number | undefined,
   currentRow: any,
+  scoringResultId: number | undefined,
+  setScoringResultId: (id: number) => void,
 }
 
 /**
@@ -34,11 +36,13 @@ const AddScoringResultModal: React.FC<Props> = (props) => {
     appType,
     onSubmit,
     handleCancel,
-    form
+    scoringResultId,
+    setScoringResultId,
   } = props;
 
 
   const handleAdd = async (values: API.ScoringResultVO) => {
+    console.log(scoringResultId)
     const hide = message.loading('正在添加');
     try {
       const addScoringResultRequest = {
@@ -47,7 +51,8 @@ const AddScoringResultModal: React.FC<Props> = (props) => {
         resultPicture: values.resultPicture,
         resultProp: values.resultProp,
         resultScoreRange: values.resultScoreRange,
-        appId: id
+        appId: id,
+        id: scoringResultId,
       }
       const res = await addScoringResultUsingPost(addScoringResultRequest)
       if (res) {
@@ -61,6 +66,15 @@ const AddScoringResultModal: React.FC<Props> = (props) => {
       return false;
     }
   };
+  const getSnowFlakeNextId = async () => {
+    const scoringResultIdData = await generateSnowFlakeNextIdUsingGet();
+    if (scoringResultIdData.data) {
+      setScoringResultId(scoringResultIdData.data)
+    }
+  }
+  useEffect(() => {
+    getSnowFlakeNextId();
+  }, []);
 
   return (
     <Modal

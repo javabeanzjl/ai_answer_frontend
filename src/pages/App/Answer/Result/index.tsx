@@ -29,7 +29,7 @@ const ResultDetail = () => {
   const loadData = async () => {
     console.log(id)
     const res = await getUserAnswerVoByIdUsingGet({
-      id: Number(id)
+      id: id as any
     });
     if (res.data) {
       console.log(res.data)
@@ -42,11 +42,6 @@ const ResultDetail = () => {
 
   return (
     <>
-      <Breadcrumb style={{margin: '16px 0'}}>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>Test Results</Breadcrumb.Item>
-        <Breadcrumb.Item>{userAnswerResult?.resultName}</Breadcrumb.Item>
-      </Breadcrumb>
       <div style={{background: '#fff', padding: 24, minHeight: 280}}>
         <Result
           status="success"
@@ -64,25 +59,12 @@ const ResultDetail = () => {
             </Button>,
           ]}
         >
-          <div className="desc">
-            <Row gutter={16}>
-              <Col span={12}>
-                <Card title="测试详情">
-                  {userAnswerResult?.appType === 0 && (<Paragraph>得分：{userAnswerResult?.resultScore}</Paragraph>)}
-                  {userAnswerResult?.appType === 1 && (<Paragraph>选项：{userAnswerResult?.choices}</Paragraph>)}
-                  <Paragraph>测试时间：{userAnswerResult?.createTime}</Paragraph>
-                  <Paragraph>用户：{userAnswerResult?.user?.userName}</Paragraph>
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card title="可视化数据">
-                  {/* 这里可以放置图表、进度条等可视化元素 */}
-                  <Tag color="green">策略：{userAnswerResult?.scoringStrategy}</Tag>
-                  {/* 根据需要添加更多可视化元素 */}
-                </Card>
-              </Col>
-            </Row>
-          </div>
+          <Card title="测试详情">
+            {userAnswerResult?.appType === 0 && (<Paragraph>得分：{userAnswerResult?.resultScore}</Paragraph>)}
+            {userAnswerResult?.appType === 1 && (<Paragraph>选项：{userAnswerResult?.choices}</Paragraph>)}
+            <Paragraph>测试时间：{userAnswerResult?.createTime}</Paragraph>
+            <Paragraph>用户：{userAnswerResult?.user?.userName}</Paragraph>
+          </Card>
         </Result>
       </div>
     </>
